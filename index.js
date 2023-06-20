@@ -60,9 +60,10 @@ async function run() {
     app.post('/jwt', (req, res) => {
       const user = req.body;
       console.log(user);
-
-
-      const token = jwt.sign(user, process.env.ACCESS_SECRET_TOKEN, { expiresIn: '1h' });
+      const token = jwt.sign(user, process.env.ACCESS_SECRET_TOKEN, 
+        { 
+        expiresIn: '1h' 
+      });
       console.log(token);
       res.send({ token });
 
@@ -96,6 +97,10 @@ async function run() {
       const decoded=req.decoded;
       // console.log(req.headers.authorization);
       console.log('comes after verify',decoded);
+
+      if(decoded.email!==req.query.email){
+        return res.status(403).send({error:1,message:'forbidden access'})
+      }
 
       let query = {};
       if (req.query?.email) {
