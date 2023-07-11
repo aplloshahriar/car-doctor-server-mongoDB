@@ -72,7 +72,14 @@ async function run() {
 
     // services
     app.get('/services', async (req, res) => {
-      const cursor = serviceCollection.find();
+      const query={};
+      const options = {
+        // sort matched documents in descending order by rating
+        sort: { "price": 1 },
+        // Include only the `title` and `imdb` fields in the returned document
+      
+      };
+      const cursor = serviceCollection.find(query,options);
       const result = await cursor.toArray();
       res.send(result);
     })
@@ -158,7 +165,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-  res.send('doctor ius running')
+  res.send('doctor is running')
 })
 app.listen(port, () => {
   console.log(`car doctor server running on port${port}`)
