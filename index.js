@@ -72,10 +72,13 @@ async function run() {
 
     // services
     app.get('/services', async (req, res) => {
+      const sort=req.query.sort;
       const query={};
       const options = {
         // sort matched documents in descending order by rating
-        sort: { "price": 1 },
+        sort: { 
+          "price" : sort=== 'asc' ? 1 : -1
+        },
         // Include only the `title` and `imdb` fields in the returned document
       
       };
